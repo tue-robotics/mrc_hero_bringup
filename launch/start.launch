@@ -1,0 +1,88 @@
+<?xml version="1.0"?>
+<launch>
+
+    <arg name="debug" default="false" />
+
+    <!--Toyota parameters -->
+    <arg name="namespace" default="/hero"/>
+<!--
+    <arg name="toyota_namespace" default="/hero"/>
+-->
+    <arg name="use_hand_camera" default="false" /> <!-- When changing this, apply also to hero1(-demo)-roscore.service -->
+    <arg name="use_head_center_camera" default="false" /> <!-- When changing this, apply also to hero1(-demo)-roscore.service -->
+    <arg name="use_head_stereo_camera" default="false"/> <!-- When changing this, apply also to hero1(-demo)-roscore.service -->
+    <arg name="use_head_rgbd_sensor" default="true"/> <!-- When changing this, apply also to hero1(-demo)-roscore.service -->
+    <arg name="serialnumber_as_name" default="true" /> <!-- Different to Toyota -->
+    <arg name="use_base_range_sensor" default="true" />
+    <arg name="use_laser_odom" default="false"/>
+    <arg name="use_point_cloud" default="false" /> <!-- Different to Toyota -->
+    <arg name="use_blackfly" default="false" />
+    <arg name="monitor" default="false" />
+    <arg name="param_file" default="$(env HOME)/.ros/params.yaml" />
+    <arg name="align_at_startup" default="true" />
+    <arg name="auto_start" default="false" /> <!-- Don't pass on to robot_service node -->
+    <arg name="robot_name" default="hsrb" />
+    <arg name="personal_name" default="hero" />
+    <arg name="enable_emergency_stop" default="false" />
+
+    <arg name="sim" value="true" if="$(optenv ROBOT_REAL false)" />
+    <arg name="sim" value="false" unless="$(optenv ROBOT_REAL false)" />
+
+    <arg name="use_manipulation" default="$(optenv USE_MANIPULATION false)" />
+    <arg name="use_navigation" default="$(optenv USE_NAVIGATION false)" />
+    <arg name="use_perception" default="$(optenv USE_PERCEPTION false)" />
+    <arg name="use_task" default="$(optenv USE_TASK false)" />
+    <arg name="use_teleop" default="$(optenv USE_TELEOP false)" />
+    <arg name="use_web" default="$(optenv USE_WEB false)" />
+    <arg name="use_geometry" default="$(optenv USE_GEOMETRY false)" />
+    <arg name="map" default="$(optenv ROS_HOME ~/.ros)/map/map.yaml" />
+
+    <!-- General remapping -->
+    <remap from="/hsrb/robot_description" to="$(arg namespace)/robot_description" />
+    <remap from="/robot_description" to="$(arg namespace)/robot_description" />
+    <remap from="robot_description" to="$(arg namespace)/robot_description" />
+
+    <remap from="/hsrb/robot_collision_pair" to="$(arg namespace)/robot_collision_pair" />
+    <remap from="/robot_collision_pair" to="$(arg namespace)/robot_collision_pair" />
+    <remap from="robot_collision_pair" to="$(arg namespace)/robot_collision_pair" />
+
+    <remap from="/hsrb/diagnostics" to="$(arg namespace)/diagnostics" />
+    <remap from="/diagnostics" to="$(arg namespace)/diagnostics" />
+    <remap from="diagnostics" to="$(arg namespace)/diagnostics" />
+
+    <!-- Start with hardware manager -->
+    <node name="robot_service" pkg="mrc_hero_bringup" type="hero_robot_service" if="$(optenv ROBOT_REAL false)"
+    args="namespace:=$(arg namespace)
+          use_hand_camera:=$(arg use_hand_camera)
+          use_head_center_camera:=$(arg use_head_center_camera)
+          use_head_stereo_camera:=$(arg use_head_stereo_camera)
+          use_head_rgbd_sensor:=$(arg use_head_rgbd_sensor)
+          serialnumber_as_name:=$(arg serialnumber_as_name)
+          use_base_range_sensor:=$(arg use_base_range_sensor)
+          use_laser_odom:=$(arg use_laser_odom)
+          use_point_cloud:=$(arg use_point_cloud)
+          use_blackfly:=$(arg use_blackfly)
+          monitor:=$(arg monitor)
+          param_file:=$(arg param_file)
+          align_at_startup:=$(arg align_at_startup)
+
+          robot_name:=$(arg robot_name)
+          personal_name:=$(arg personal_name)
+          enable_emergency_stop:=$(arg enable_emergency_stop)
+
+          use_manipulation:=$(arg use_manipulation)
+          use_navigation:=$(arg use_navigation)
+          use_perception:=$(arg use_perception)
+          use_task:=$(arg use_task)
+          use_teleop:=$(arg use_teleop)
+          use_web:=$(arg use_web)
+          use_geometry:=$(arg use_geometry)
+          map:=$(arg map)
+
+          --fast-restart
+
+          runstop_button:=$(arg namespace)/runstop_button
+          ">
+    </node>
+
+ </launch>
