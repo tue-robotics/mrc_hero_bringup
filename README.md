@@ -17,4 +17,7 @@ This guide assumes the robot is in working order and installed using the instruc
 `wget https://raw.githubusercontent.com/tue-robotics/emc-env/master/install.bash` followed by
 `source install.bash`
 - test the installation by running `hero-start`
-- remove root priviliges from the mrc user `sudo deluser mrc sudo` #TODO this does not appear to work yet!
+- remove root priviliges from the mrc user `sudo deluser mrc sudo`
+- reboot
+
+Note: since the mrc user does not have root priviliges, it cannot do an update of the emc-system anymore. If such an update is required one should add the user to the sudoers file, perform the update and remove the user again.
