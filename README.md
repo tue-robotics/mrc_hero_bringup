@@ -8,7 +8,13 @@ This guide assumes the robot is in working order and installed using the instruc
 
 - create a new user.
 `sudo adduser mrc` 
+- Add this user to the sudoers file (! Take care to remove it later)
+  `sudo usermod -aG sudo mrc`
 - switch to this new user. `su mrc`
+- add an environment variable to .bashrc
+  `echo -e "\n# This is the actual robot\nexport ROBOT_REAL=true" >> ~/.bashrc`
 - install the mrc environment
 `wget https://raw.githubusercontent.com/tue-robotics/emc-env/master/install.bash` followed by
 `source install.bash`
+- test the installation by running `hero-start`
+- remove root priviliges from the mrc user `sudo deluser mrc sudo` #TODO this does not appear to work yet!
