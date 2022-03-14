@@ -1,0 +1,5 @@
+ip_address: 10.255.255.2
+frame_id: base_range_sensor_link
+# angle range 250[deg]
+angle_min: -2.1
+angle_max: 2.1
