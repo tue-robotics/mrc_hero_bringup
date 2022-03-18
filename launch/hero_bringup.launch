@@ -82,17 +82,6 @@
             <arg name="enable_emergency_stop" value="$(arg enable_emergency_stop)" />
         </include>
 
-        <group ns="$(arg namespace)">
-
-            <!-- base range sensor -->
-            <!-- only filter, as Totoya launch file launches the driver -->
-            <node pkg="laser_filters" type="scan_to_scan_filter_chain" name="laser_scan_to_scan_filter_chain" >
-                <rosparam command="load" file="$(find mrc_hero_bringup)/parameters/hardware/sensors/base_laser_filters_parameters.yaml" />
-                <remap from="scan" to="base_scan" />
-                <remap from="scan_filtered" to="base_laser/scan" />
-            </node>
-        </group>
-
     </group><!-- End of real hardware -->
 
     <!-- TU/e namespace group -->
